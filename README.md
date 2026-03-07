@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LotinUp
 
-## Getting Started
+LotinUp - o'zbek matnini `Lotin <-> Kirill` transliteratsiya qiluvchi Next.js ilova.
 
-First, run the development server:
+## Ishga tushirish
+
+```bash
+npm install
+npm run dev
+```
+
+Brauzerda oching: [http://localhost:3000](http://localhost:3000)
+
+## Mavjud skriptlar
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
+npm run start
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Theme tizimi (Dark/Light/System)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Loyihada 3 rejimli theme ishlaydi:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `light`
+- `dark`
+- `system` (default)
 
-## Learn More
+### Qanday ishlaydi
 
-To learn more about Next.js, take a look at the following resources:
+- Theme tanlovi `localStorage`da `theme` kaliti bilan saqlanadi.
+- Ilova yuklanganda:
+  - agar `localStorage.theme` mavjud bo'lsa, shu qiymat olinadi;
+  - bo'lmasa `prefers-color-scheme` bo'yicha aniqlanadi.
+- DOM darajasida `html` elementga:
+  - `class="dark"` (dark holatda),
+  - `data-theme="light|dark"` qo'llanadi.
+- Theme almashtirish reloadsiz real-time ishlaydi.
+- `system` tanlanganida OS theme runtime o'zgarsa UI ham avtomatik moslashadi.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### FOUC oldini olish
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`src/app/layout.tsx` ichida hydrationdan oldin ishlaydigan inline init script mavjud. Shu script boshlang'ich theme'ni oldindan qo'llab, FOUCni kamaytiradi.
 
-## Deploy on Vercel
+### Asosiy fayllar
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `src/components/theme/theme-context.tsx` - `ThemeProvider` va theme state
+- `src/components/theme/use-theme.ts` - `useTheme` hook
+- `src/components/theme/theme-toggle.tsx` - theme switch UI
+- `src/app/layout.tsx` - early-init script + provider ulanishi
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Ulanish
+
+`ThemeProvider` global layoutda ulangan:
+
+```tsx
+<ThemeProvider>{children}</ThemeProvider>
+```
+
+Client komponentda:
+
+```tsx
+import { useTheme } from "@/components/theme/use-theme"
+```

@@ -1,18 +1,25 @@
-import React from 'react'
+type LogoProps = {
+  className?: string
+}
 
-export default function Logo() {
-    return (
-        <svg width="200" height="60" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="200" height="60" rx="10" fill="#1a1d24" />
-            <text x="10" y="40" fontFamily="Arial, sans-serif" fontSize="36" fontWeight="bold" fill="#4DB6AC">
-                Lotin
-            </text>
-            <text x="100" y="40" fontFamily="Arial, sans-serif" fontSize="36" fontWeight="bold" fill="#60A5FA">
-                Up
-            </text>
-
-        </svg>
-
-
-    )
+export default function Logo({ className = "" }: LogoProps) {
+  return (
+    <svg
+      width="160"
+      height="44"
+      viewBox="0 0 160 44"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-label="LotinUp"
+      className={className}
+    >
+      <text x="2" y="31" fontFamily="Inter, sans-serif" fontSize="40" fontWeight="800" letterSpacing="-1.2" fill="#14B8A6">
+        Lotin
+      </text>
+      <text x="90" y="31" fontFamily="Inter, sans-serif" fontSize="40" fontWeight="800" letterSpacing="-1.2" fill="#3B82F6">
+        Up
+      </text>
+    </svg>
+  )
 }
